@@ -9,7 +9,7 @@ function sendNotification(topic, message) {
 
   var payload = {
     notification: {
-      title: "MDBMemes",
+      title: "MDBSocials",
       body: message,
       icon: "icon_notification",
       sound: "default"

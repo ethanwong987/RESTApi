@@ -2,7 +2,7 @@
 const router = require("express").Router();
 const completeRequest = require("../util/routing.js").completeRequest;
 const userLogic = require("../logic/user.js");
-const memeRef = require("../logic/meme.js").ref;
+const postRef = require("../logic/post.js").ref;
 
 // ROUTES
 router.get("/users/:id", function(req, res) {
@@ -26,7 +26,7 @@ router.patch("/users/:id/favorites", function(req, res) {
   req.checkParams("id", "no id present").notEmpty();
   req.checkParams("id", "user id does not exist").isValidId(userLogic.ref);
   req.checkBody("memeId", "no memeId present").notEmpty();
-  req.checkBody("memeId", "meme id does not exist").isValidId(memeRef);
+  req.checkBody("memeId", "meme id does not exist").isValidId(postRef);
   var fn;
   if (req.body.favorite) {
     fn = userLogic.favorite;
@@ -34,7 +34,7 @@ router.patch("/users/:id/favorites", function(req, res) {
     fn = userLogic.unFavorite;
   }
   completeRequest(req, res, function(params) {
-    return fn(req.params.id, req.body.memeId);
+    return fn(req.params.id, req.body.postId);
   });
 });
 

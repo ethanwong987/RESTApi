@@ -1,11 +1,11 @@
 // DEPENDENCIES
 const router = require("express").Router();
 const userRouter = require("./user.js");
-const memeRouter = require("./meme.js");
+const postRouter = require("./post.js");
 
 // ROUTES
 router.use(userRouter);
-router.use(memeRouter);
+router.use(postRouter);
 
 // EXPORTS
 module.exports = router;

@@ -4,8 +4,10 @@ const ref = require("./firebase.js").database().ref();
 // CONSTANTS
 const errNoExist = "Object with id does not exist";
 const refs = {
-  userRef: ref.child("Users"),
-  memeRef: ref.child("Memes")
+  postRef: ref.child("Posts"),
+  userRef: ref.child("Users")
+  // memeRef: ref.child("Memes"),
+  // dankmemeRef: ref.child("dankMemes")
 };
 
 // HELPERS
@@ -32,7 +34,7 @@ function _multipleCallback(snapshot) {
 function _create(ref, fieldToVal) {
   _setLastUpdated(fieldToVal);
   return ref.set(fieldToVal).then(function() {
-    return getById(ref, childRef.key);
+    return getById(ref.parent, ref.key);
   });
 }
 
@@ -44,11 +46,14 @@ function getAll(ref) {
 function getById(ref, id) {
   return ref.child(id).once("value").then(function(snapshot) {
     if (!snapshot.exists()) return Promise.reject(new Error(errNoExist));
+    return _singleCallback(snapshot);
   });
 }
 
 function createByAutoId(ref, fieldToVal) {
+  // console.log(ref.push());
   var childRef = ref.push();
+  // console.log(childRef);
   return _create(childRef, fieldToVal);
 }
 
